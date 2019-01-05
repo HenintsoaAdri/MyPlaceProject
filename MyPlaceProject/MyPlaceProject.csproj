@@ -193,8 +193,14 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\BaseModele.cs" />
+    <Compile Include="Models\MyPlaceContext.cs" />
+    <Compile Include="Models\Categorie.cs" />
+    <Compile Include="Models\Commande.cs" />
+    <Compile Include="Models\DetailCommande.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Produit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
