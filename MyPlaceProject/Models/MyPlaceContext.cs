@@ -5,13 +5,13 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
 
-namespace MyPlaceApp.Models
+namespace MyPlaceProject.Models
 {
     public class MyPlaceContext : DbContext
     {
         public MyPlaceContext() : base("MyPlaceDB")
         {
-
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<MyPlaceContext, MyPlaceProject.Migrations.Configuration>());
         }
         public DbSet<Produit> produits { get; set; }
         public DbSet<Categorie> categorie { get; set; }

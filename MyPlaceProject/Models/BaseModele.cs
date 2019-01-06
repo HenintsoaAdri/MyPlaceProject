@@ -1,7 +1,7 @@
-﻿namespace MyPlaceApp.Models
+﻿namespace MyPlaceProject.Models
 {
     public class BaseModele
     {
-        public int id { get; set; }
+        public int Id { get; set; }
     }
 }

@@ -187,11 +187,15 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CategorieController.cs" />
+    <Compile Include="Controllers\CommandeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ProduitController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BaseModele.cs" />
     <Compile Include="Models\MyPlaceContext.cs" />
@@ -260,6 +264,21 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Produit\Create.cshtml" />
+    <Content Include="Views\Produit\Delete.cshtml" />
+    <Content Include="Views\Produit\Details.cshtml" />
+    <Content Include="Views\Produit\Edit.cshtml" />
+    <Content Include="Views\Produit\Index.cshtml" />
+    <Content Include="Views\Categorie\Create.cshtml" />
+    <Content Include="Views\Categorie\Delete.cshtml" />
+    <Content Include="Views\Categorie\Details.cshtml" />
+    <Content Include="Views\Categorie\Edit.cshtml" />
+    <Content Include="Views\Categorie\Index.cshtml" />
+    <Content Include="Views\Commande\Create.cshtml" />
+    <Content Include="Views\Commande\Delete.cshtml" />
+    <Content Include="Views\Commande\Details.cshtml" />
+    <Content Include="Views\Commande\Edit.cshtml" />
+    <Content Include="Views\Commande\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

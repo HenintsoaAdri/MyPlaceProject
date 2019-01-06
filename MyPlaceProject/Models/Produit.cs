@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace MyPlaceApp.Models
+namespace MyPlaceProject.Models
 {
     public class Produit : BaseModele 
     {
-        public string nom { get; set; }
-        public float prix { get; set; }
-        public string description { get; set; }
-        public string photo { get; set; }
-        public Categorie categorie { get; set; }
+        public string Nom { get; set; }
+        public float Prix { get; set; }
+        public string Description { get; set; }
+        public string Photo { get; set; }
+        public Categorie Categorie { get; set; }
         
     }
 }

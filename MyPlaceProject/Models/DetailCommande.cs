@@ -1,9 +1,10 @@
-﻿namespace MyPlaceApp.Models
+﻿namespace MyPlaceProject.Models
 {
-    public class DetailCommande
+    public class DetailCommande:BaseModele
     {
-        public Produit produit { get; set; }
-        public int quantite { get; set; }
-        public Commande commande { get; set; }
+        public Produit Produit { get; set; }
+        public int Quantite { get; set; }
+        public Commande Commande { get; set; }
+        public bool Done { get; set; }
     }
 }
