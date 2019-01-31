@@ -6,5 +6,6 @@
         public int Quantite { get; set; }
         public Commande Commande { get; set; }
         public bool Done { get; set; }
+        public float PrixUnitaire { get; set; }
     }
 }

@@ -9,5 +9,6 @@ namespace MyPlaceProject.Models
     {
         public DateTime Date { get; set; }
         public List<DetailCommande> DetailCommande { get; set; }
+
     }
 }
