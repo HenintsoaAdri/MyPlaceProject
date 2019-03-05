@@ -1,0 +1,8 @@
+﻿@model List<MyPlaceProject.Models.Categorie>
+@Html.DropDownList("CategorieId", new SelectList(Model, "Id", "Nom", ViewBag.Selected), new { @class = "form-control", id = "list-categorie" })
+@Ajax.ActionLink("Ajouter une catégorie", "ModalCategorie", null, new AjaxOptions {
+    UpdateTargetId = "modal-change",
+    InsertionMode = InsertionMode.Replace,
+    HttpMethod = "GET",
+    LoadingElementId = "modal-loading"
+}, new { data_toggle="modal", data_target="#modal-wrapper" })
