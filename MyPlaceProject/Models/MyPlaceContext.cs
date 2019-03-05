@@ -13,10 +13,10 @@ namespace MyPlaceProject.Models
         {
             Database.SetInitializer(new MigrateDatabaseToLatestVersion<MyPlaceContext, MyPlaceProject.Migrations.Configuration>());
         }
-        public DbSet<Produit> produits { get; set; }
+        public DbSet<Produit> produit { get; set; }
         public DbSet<Categorie> categorie { get; set; }
-        public DbSet<Commande> commandes { get; set; }
-        public DbSet<DetailCommande> detailCommandes { get; set; }
+        public DbSet<Commande> commande { get; set; }
+        public DbSet<DetailCommande> detailCommande { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

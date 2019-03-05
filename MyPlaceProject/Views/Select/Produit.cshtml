@@ -1,0 +1,9 @@
+﻿@model List<MyPlaceProject.Models.Produit>
+<ul id="list-menu">
+    @foreach(var item in Model)
+    {
+    <li draggable="true" data-prix="@item.Prix" data-nom="@item.Nom" data-categorie="@item.Categorie.Nom" data-stock="@item.QuantiteStock" data-id="@item.Id">
+        @Html.DisplayFor(modelItem => item.Nom)
+    </li>
+    }
+</ul>

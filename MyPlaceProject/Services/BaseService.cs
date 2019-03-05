@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 
 namespace MyPlaceProject.Services
 {
-    public class BaseDao
+    public class BaseService
     {
     }
 }

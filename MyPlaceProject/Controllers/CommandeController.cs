@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MyPlaceProject.Models;
+using MyPlaceProject.Services;
 
 namespace MyPlaceProject.Controllers
 {
@@ -17,7 +18,7 @@ namespace MyPlaceProject.Controllers
         // GET: Commande
         public ActionResult Index()
         {
-            return View(db.commandes.ToList());
+            return View(db.commande.ToList());
         }
 
         // GET: Commande/Details/5
@@ -27,7 +28,7 @@ namespace MyPlaceProject.Controllers
             {
                 return RedirectToAction("Index");
             }
-            Commande commande = db.commandes.Find(id);
+            Commande commande = db.commande.Find(id);
             if (commande == null)
             {
                 return HttpNotFound();
@@ -46,11 +47,11 @@ namespace MyPlaceProject.Controllers
         // plus de détails, voir  https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Date")] Commande commande)
+        public ActionResult Create(Commande commande)
         {
             if (ModelState.IsValid)
             {
-                db.commandes.Add(commande);
+                db.commande.Add(commande);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -65,7 +66,7 @@ namespace MyPlaceProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Commande commande = db.commandes.Find(id);
+            Commande commande = db.commande.Find(id);
             if (commande == null)
             {
                 return HttpNotFound();
@@ -78,17 +79,24 @@ namespace MyPlaceProject.Controllers
         // plus de détails, voir  https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Date")] Commande commande)
+        public ActionResult Edit(Commande commande)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(commande).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    CommandeServiceEF service = new CommandeServiceEF();
+                    service.Update(commande);
+                    return RedirectToAction("Index");
+                }
+                catch(Exception e)
+                {
+                    ModelState.AddModelError("", e.Message);
+                }
             }
             return View(commande);
         }
-
+        
         // GET: Commande/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -96,7 +104,7 @@ namespace MyPlaceProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Commande commande = db.commandes.Find(id);
+            Commande commande = db.commande.Find(id);
             if (commande == null)
             {
                 return HttpNotFound();
@@ -109,8 +117,8 @@ namespace MyPlaceProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Commande commande = db.commandes.Find(id);
-            db.commandes.Remove(commande);
+            Commande commande = db.commande.Find(id);
+            db.commande.Remove(commande);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
