@@ -5,9 +5,10 @@ using System.Web;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace MyPlaceProject.Services
+namespace MyPlaceProject.DAO
 {
-    public class BaseDao
+    public class BaseDAO
     {
+
     }
 }
