@@ -1,6 +1,7 @@
 ﻿@model MyPlaceProject.Models.Produit
 
 @{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     ViewBag.Title = "Details";
 }
 
@@ -42,6 +43,13 @@
             @Html.DisplayFor(model => model.Photo)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Categorie)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Categorie.Nom)
+        </dd>
     </dl>
 </div>
 <p>

@@ -17,7 +17,7 @@ namespace MyPlaceProject.Controllers
         // GET: Produit
         public ActionResult Index()
         {
-            return View(db.produits.ToList());
+            return View(db.produit.Include(p => p.Categorie).ToList());
         }
 
         // GET: Produit/Details/5
@@ -27,7 +27,7 @@ namespace MyPlaceProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Produit produit = db.produits.Find(id);
+            Produit produit = db.produit.Find(id);
             if (produit == null)
             {
                 return HttpNotFound();
@@ -46,11 +46,11 @@ namespace MyPlaceProject.Controllers
         // plus de détails, voir  https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Nom,Prix,Description,Photo")] Produit produit)
+        public ActionResult Create(Produit produit)
         {
             if (ModelState.IsValid)
             {
-                db.produits.Add(produit);
+                db.produit.Add(produit);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -65,11 +65,12 @@ namespace MyPlaceProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Produit produit = db.produits.Find(id);
+            Produit produit = db.produit.Find(id);
             if (produit == null)
             {
                 return HttpNotFound();
             }
+            ViewBag.Details = new SelectList(db.categorie.ToList(), "Id", "Nom");
             return View(produit);
         }
 
@@ -78,7 +79,7 @@ namespace MyPlaceProject.Controllers
         // plus de détails, voir  https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Nom,Prix,Description,Photo")] Produit produit)
+        public ActionResult Edit(Produit produit)
         {
             if (ModelState.IsValid)
             {
@@ -96,7 +97,7 @@ namespace MyPlaceProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Produit produit = db.produits.Find(id);
+            Produit produit = db.produit.Find(id);
             if (produit == null)
             {
                 return HttpNotFound();
@@ -109,8 +110,8 @@ namespace MyPlaceProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Produit produit = db.produits.Find(id);
-            db.produits.Remove(produit);
+            Produit produit = db.produit.Find(id);
+            db.produit.Remove(produit);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

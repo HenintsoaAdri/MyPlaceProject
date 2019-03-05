@@ -1,6 +1,7 @@
 ﻿@model MyPlaceProject.Models.Commande
 
 @{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
     ViewBag.Title = "Details";
 }
 
@@ -17,7 +18,38 @@
         <dd>
             @Html.DisplayFor(model => model.Date)
         </dd>
-
+        <dd>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Produit</th>
+                        <th>Categorie</th>
+                        <th>Prix Unitaire</th>
+                        <th>Quantité</th>
+                        <th>Prix Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.DetailCommande)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Produit.Nom)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Produit.Categorie.Nom)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PrixUnitaire)
+                            </td>
+                            <td>@Html.DisplayFor(modelItem => item.Quantite)</td>
+                            <td class="total">@(item.GetTotal())</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <p>Total: Ar <span class="total">@Model.GetTotal()</span></p>
+        </dd>
     </dl>
 </div>
 <p>
