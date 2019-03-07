@@ -34,7 +34,7 @@
         
         cols += '<td> <input type="hidden" name="DetailCommande.Index" value="' + counter + '"/>' + source.data('nom') + '</td>';
         cols += '<td> <input type="hidden" name="DetailCommande[' + counter + '].ProduitId" value="' + source.data('id') + '"/>' + source.data('categorie') + '</td>';
-        cols += '<td>' + source.data('prix') + '</td>';
+        cols += '<td> <input type="hidden" name="DetailCommande[' + counter + '].PrixUnitaire" value="' + source.data('prix') + '"/>' + source.data('prix') + '</td>';
         cols += '<td class="col-sm-2"><input type="number" class="form-control" name="DetailCommande[' + counter + '].Quantite" value="1" min="0" /></td>';
 
         cols += '<td class="total">' + source.data('prix') + '</td>';

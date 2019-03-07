@@ -27,6 +27,10 @@ namespace MyPlaceProject.Models
         {
             DatePlat = DateTime.Now;
         }
-        
+        public Produit(int id) : base(id)
+        {
+            DatePlat = DateTime.Now;
+        }
+
     }
 }

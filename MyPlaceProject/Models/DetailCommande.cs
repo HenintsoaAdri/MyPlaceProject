@@ -8,11 +8,7 @@ namespace MyPlaceProject.Models
         [Key, Column(Order = 0)]
         public int ProduitId { get; set; }
         [ForeignKey("ProduitId")]
-        public virtual Produit Produit {
-            get { return _Produit; }
-            set { _Produit = value; PrixUnitaire = value.Prix; }
-        }
-        public virtual Produit _Produit { get; set; }
+        public virtual Produit Produit { get; set; }
 
         public int Quantite { get; set; }
 
