@@ -7,17 +7,18 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MyPlaceProject.Models;
+using MyPlaceProject.Services;
 
 namespace MyPlaceProject.Controllers
 {
     public class CategorieController : Controller
     {
-        private MyPlaceContext db = new MyPlaceContext();
+        private CategorieServiceEF service = CategorieServiceEF.getInstance();
 
         // GET: Categorie
         public ActionResult Index()
         {
-            return View(db.categorie.ToList());
+            return View(service.GetAll());
         }
 
         // GET: Categorie/Details/5
@@ -27,7 +28,7 @@ namespace MyPlaceProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Categorie categorie = db.categorie.Find(id);
+            Categorie categorie = service.Get(id);
             if (categorie == null)
             {
                 return HttpNotFound();
@@ -50,9 +51,15 @@ namespace MyPlaceProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.categorie.Add(categorie);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    service.Save(categorie);
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    ModelState.AddModelError("", e.Message);
+                }
             }
 
             return View(categorie);
@@ -65,7 +72,7 @@ namespace MyPlaceProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Categorie categorie = db.categorie.Find(id);
+            Categorie categorie = service.Get(id);
             if (categorie == null)
             {
                 return HttpNotFound();
@@ -82,9 +89,15 @@ namespace MyPlaceProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(categorie).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    service.Update(categorie);
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    ModelState.AddModelError("", e.Message);
+                }
             }
             return View(categorie);
         }
@@ -96,7 +109,7 @@ namespace MyPlaceProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Categorie categorie = db.categorie.Find(id);
+            Categorie categorie = service.Get(id);
             if (categorie == null)
             {
                 return HttpNotFound();
@@ -109,19 +122,17 @@ namespace MyPlaceProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Categorie categorie = db.categorie.Find(id);
-            db.categorie.Remove(categorie);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
+            Categorie categorie = service.Get(id);
+            try
             {
-                db.Dispose();
+                service.Delete(categorie);
+                return RedirectToAction("Index");
             }
-            base.Dispose(disposing);
+            catch (Exception e)
+            {
+                ModelState.AddModelError("", e.Message);
+            }
+            return View(categorie);
         }
     }
 }

@@ -7,17 +7,17 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MyPlaceProject.Models;
+using MyPlaceProject.Services;
 
 namespace MyPlaceProject.Controllers
 {
     public class ProduitController : Controller
     {
-        private MyPlaceContext db = new MyPlaceContext();
-
+        ProduitServiceEF service = ProduitServiceEF.getInstance();
         // GET: Produit
         public ActionResult Index()
         {
-            return View(db.produit.Include(p => p.Categorie).ToList());
+            return View(service.GetAll());
         }
 
         // GET: Produit/Details/5
@@ -27,7 +27,7 @@ namespace MyPlaceProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Produit produit = db.produit.Find(id);
+            Produit produit = service.Get(id);
             if (produit == null)
             {
                 return HttpNotFound();
@@ -50,9 +50,15 @@ namespace MyPlaceProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.produit.Add(produit);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    service.Save(produit);
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    ModelState.AddModelError("", e.Message);
+                }
             }
 
             return View(produit);
@@ -65,12 +71,11 @@ namespace MyPlaceProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Produit produit = db.produit.Find(id);
+            Produit produit = service.Get(id);
             if (produit == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.Details = new SelectList(db.categorie.ToList(), "Id", "Nom");
             return View(produit);
         }
 
@@ -83,9 +88,15 @@ namespace MyPlaceProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(produit).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    service.Update(produit);
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+                    ModelState.AddModelError("", e.Message);
+                }
             }
             return View(produit);
         }
@@ -97,7 +108,7 @@ namespace MyPlaceProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Produit produit = db.produit.Find(id);
+            Produit produit = service.Get(id);
             if (produit == null)
             {
                 return HttpNotFound();
@@ -110,19 +121,17 @@ namespace MyPlaceProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Produit produit = db.produit.Find(id);
-            db.produit.Remove(produit);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
+            Produit produit = service.Get(id);
+            try
             {
-                db.Dispose();
+                service.Delete(produit);
+                return RedirectToAction("Index");
             }
-            base.Dispose(disposing);
+            catch (Exception e)
+            {
+                ModelState.AddModelError("", e.Message);
+            }
+            return View(produit);
         }
     }
 }
