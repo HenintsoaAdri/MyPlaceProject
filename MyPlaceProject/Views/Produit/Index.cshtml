@@ -48,7 +48,10 @@
             @Html.DisplayFor(modelItem => item.Photo)
         </td>
         <td>
-            @Html.ActionLink(item.Categorie.Nom, "Details", "Categorie", new { id = item.Categorie.Id }, null)
+            @if (item.Categorie != null)
+            {
+                @Html.ActionLink(item.Categorie.Nom, "Details", "Categorie", new { id = item.Categorie.Id }, null)
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.QuantiteStock)

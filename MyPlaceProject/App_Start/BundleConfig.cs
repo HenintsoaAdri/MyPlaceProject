@@ -29,6 +29,11 @@ namespace MyPlaceProject
                       "~/Content/bootstrap.css",
                       "~/Content/font-awesome.css",
                       "~/Content/sb-admin-2.min.css"));
+            bundles.Add(new StyleBundle("~/Content/cssClient").Include(
+                      "~/Content/bootstrap.css",
+                      "~/Content/font-awesome.css",
+                      "~/Content/sb-admin-2.min.css",
+                      "~/Content/cssClient.css"));
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/font-awesome.css",

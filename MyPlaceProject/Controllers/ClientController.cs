@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MyPlaceProject.Models;
+using MyPlaceProject.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +10,8 @@ namespace MyPlaceProject.Controllers
 {
     public class ClientController : Controller
     {
+        CommandeService service = CommandeService.getInstance();
+
         // GET: Client
         public ActionResult Index()
         {
@@ -26,20 +30,40 @@ namespace MyPlaceProject.Controllers
             return View();
         }
 
+        // GET: Client/Create
+        public ActionResult Commande()
+        {
+            return View(service.findAll());
+        }
+
         // POST: Client/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Commande commande)
         {
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                CommandeService.getInstance().create(commande);
+                return RedirectToAction("Create");
             }
             catch
             {
                 return View();
             }
+        }
+
+        // GET: Commande/Details/5
+        public ActionResult DetailsCommande(int id)
+        {
+            if (id == 0)
+            {
+                return RedirectToAction("Commande");
+            }
+            Commande commande = service.find(id);
+            if (commande == null)
+            {
+                return HttpNotFound();
+            }
+            return View(commande);
         }
 
         // GET: Client/Edit/5

@@ -19,5 +19,8 @@ namespace MyPlaceProject.Models
             }
             return total;
         }
+        public Commande() { }
+        public Commande(int id) : base(id) { }
+
     }
 }

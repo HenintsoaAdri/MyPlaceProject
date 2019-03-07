@@ -1,9 +1,18 @@
 ﻿@model List<MyPlaceProject.Models.Produit>
-<ul id="list-menu">
+<ul id="list-menu" class="list-unstyled">
     @foreach(var item in Model)
     {
     <li draggable="true" data-prix="@item.Prix" data-nom="@item.Nom" data-categorie="@item.Categorie.Nom" data-stock="@item.QuantiteStock" data-id="@item.Id">
-        @Html.DisplayFor(modelItem => item.Nom)
+        <div class="row">
+            <!-- div class="col-sm-2">
+        <img class="img-fluid  img-max-small" src="/Content/img/plat-image.jpg" />
+    </!--div>
+    <div class="col-sm-8">
+        <a>-->
+            @Html.DisplayFor(modelItem => item.Nom)
+            <!--/a>
+        </div>-->
+        </div>
     </li>
     }
 </ul>

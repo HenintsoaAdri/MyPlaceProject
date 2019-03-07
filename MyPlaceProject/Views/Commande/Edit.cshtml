@@ -57,7 +57,8 @@
                                             </td>
                                             <td>
                                                 @Html.Hidden("DetailCommande[" + i + "].CommandeId", Model.Id)
-                                                @Html.DisplayFor(modelItem => item.Produit.Prix)
+                                                @Html.Hidden("DetailCommande[" + i + "].PrixUnitaire", item.PrixUnitaire)
+                                                @Html.DisplayFor(modelItem => item.PrixUnitaire)
                                             </td>
                                             <td><input type="number" class="form-control" name="DetailCommande[@i].Quantite" value="@Html.DisplayFor(modelItem => item.Quantite)" /></td>
                                             <td class="total">@(item.GetTotal())</td>
