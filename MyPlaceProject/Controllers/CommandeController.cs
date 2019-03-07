@@ -13,12 +13,12 @@ namespace MyPlaceProject.Controllers
 {
     public class CommandeController : Controller
     {
-        private MyPlaceContext db = new MyPlaceContext();
+        private CommandeServiceEF service = CommandeServiceEF.getInstance();
 
         // GET: Commande
         public ActionResult Index()
         {
-            return View(db.commande.ToList());
+            return View(service.GetAll());
         }
 
         // GET: Commande/Details/5
@@ -28,7 +28,7 @@ namespace MyPlaceProject.Controllers
             {
                 return RedirectToAction("Index");
             }
-            Commande commande = db.commande.Find(id);
+            Commande commande = service.Get(id);
             if (commande == null)
             {
                 return HttpNotFound();
@@ -51,9 +51,15 @@ namespace MyPlaceProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.commande.Add(commande);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    service.Save(commande);
+                    return RedirectToAction("Index");
+                }
+                catch(Exception e)
+                {
+                    ModelState.AddModelError("", e.Message);
+                }
             }
 
             return View(commande);
@@ -66,7 +72,7 @@ namespace MyPlaceProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Commande commande = db.commande.Find(id);
+            Commande commande = service.Get(id);
             if (commande == null)
             {
                 return HttpNotFound();
@@ -85,7 +91,6 @@ namespace MyPlaceProject.Controllers
             {
                 try
                 {
-                    CommandeServiceEF service = new CommandeServiceEF();
                     service.Update(commande);
                     return RedirectToAction("Index");
                 }
@@ -104,7 +109,7 @@ namespace MyPlaceProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Commande commande = db.commande.Find(id);
+            Commande commande = service.Get(id);
             if (commande == null)
             {
                 return HttpNotFound();
@@ -117,19 +122,16 @@ namespace MyPlaceProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Commande commande = db.commande.Find(id);
-            db.commande.Remove(commande);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
+            Commande commande = service.Get(id);
+            try
             {
-                db.Dispose();
+                service.Delete(commande);
+                return RedirectToAction("Index");
+            }catch(Exception e)
+            {
+                ModelState.AddModelError("", e.Message);
             }
-            base.Dispose(disposing);
+            return View(commande);
         }
     }
 }

@@ -9,6 +9,47 @@ namespace MyPlaceProject.Services
 {
     public class CommandeServiceEF
     {   
+        private CommandeServiceEF() { }
+        private static CommandeServiceEF instance = new CommandeServiceEF();
+        public static CommandeServiceEF getInstance()
+        {
+            return instance;
+        }
+
+        public List<Commande> GetAll()
+        {
+            using (var context = new MyPlaceContext())
+            {
+                return context.commande.ToList();
+            }
+        }
+        public Commande Get(int? id)
+        {
+            using(var context = new MyPlaceContext())
+            {
+                return context.commande.Find(id);
+            }
+        }
+        public void Save(Commande commande)
+        {
+            using (var context = new MyPlaceContext())
+            {
+                using(var dbContextTransaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        context.commande.Add(commande);
+                        context.SaveChanges();
+                        dbContextTransaction.Commit();
+                    }
+                    catch
+                    {
+                        dbContextTransaction.Rollback();
+                        throw;
+                    }
+                }
+            }
+        }
         public void Update(Commande commande)
         {
             using (var context = new MyPlaceContext())
@@ -49,7 +90,7 @@ namespace MyPlaceProject.Services
 
                         dbContextTransaction.Commit();
                     }
-                    catch (Exception)
+                    catch
                     {
                         dbContextTransaction.Rollback();
                         foreach (DetailCommande item in commande.DetailCommande)
@@ -60,6 +101,27 @@ namespace MyPlaceProject.Services
                     }
                 }
             }
+        }
+        public void Delete(Commande commande)
+        {
+            using (var context = new MyPlaceContext())
+            {
+                using (var dbContextTransaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        context.commande.Remove(commande);
+                        context.SaveChanges();
+                        dbContextTransaction.Commit();
+                    }
+                    catch
+                    {
+                        dbContextTransaction.Rollback();
+                        throw;
+                    }
+                }
+            }
+
         }
     }
 }
