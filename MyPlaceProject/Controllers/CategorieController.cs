@@ -11,14 +11,15 @@ using MyPlaceProject.Services;
 
 namespace MyPlaceProject.Controllers
 {
+    [Authorize(Roles = "Administrateur")]
     public class CategorieController : Controller
     {
         private CategorieServiceEF service = CategorieServiceEF.getInstance();
 
         // GET: Categorie
-        public ActionResult Index()
+        public ActionResult Index(int page = 1, int maxResult = 10)
         {
-            return View(service.GetAll());
+            return View(service.GetAll(page, maxResult));
         }
 
         // GET: Categorie/Details/5
@@ -47,7 +48,7 @@ namespace MyPlaceProject.Controllers
         // plus de détails, voir  https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Nom")] Categorie categorie)
+        public ActionResult Create(Categorie categorie)
         {
             if (ModelState.IsValid)
             {
@@ -122,17 +123,16 @@ namespace MyPlaceProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Categorie categorie = service.Get(id);
             try
             {
-                service.Delete(categorie);
+                service.Delete(id);
                 return RedirectToAction("Index");
             }
             catch (Exception e)
             {
                 ModelState.AddModelError("", e.Message);
             }
-            return View(categorie);
+            return View(service.Get(id));
         }
     }
 }

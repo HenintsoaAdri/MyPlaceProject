@@ -1,0 +1,2 @@
+﻿@model List<MyPlaceProject.Models.ApplicationUser>
+@Html.DropDownList("ApplicationUserID", new SelectList(Model, "Id", "Email", ViewBag.Selected), new { @class = "form-control" })

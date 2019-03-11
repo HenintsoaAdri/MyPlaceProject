@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -7,8 +8,11 @@ namespace MyPlaceProject.Models
 {
     public class Commande : BaseModele
     {
+        [DisplayFormat(ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
         public virtual ICollection<DetailCommande> DetailCommande { get; set; }
+
+        public string ApplicationUserID { get; set; }
 
         public float GetTotal()
         {

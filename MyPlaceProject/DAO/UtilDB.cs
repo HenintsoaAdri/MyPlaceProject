@@ -29,6 +29,7 @@ namespace MyPlaceProject.DAO
             Commande item = new Commande();
             item.Id = Convert.ToInt32(reader["ID"]);
             item.Date = Convert.ToDateTime(reader["DATE"]);
+            item.ApplicationUserID = Convert.ToString(reader["APPLICATIONUSERID"]);
             return item;
         }
         public DetailCommande createDetailCommande(SqlDataReader reader)

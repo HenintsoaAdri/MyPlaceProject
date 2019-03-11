@@ -1,41 +1,71 @@
 ﻿@model MyPlaceProject.Models.RegisterViewModel
 @{
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
     ViewBag.Title = "S’inscrire";
 }
+<header id="gtco-header" class="gtco-cover gtco-cover-md" role="banner" style="background-image: url(Content/front-assets/images/img_bg_1.jpg)" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="gtco-container">
+        <div class="row">
+            <div class="col-md-12 col-md-offset-0 text-left">
 
-<h2>@ViewBag.Title.</h2>
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    <h4>Créer un nouveau compte.</h4>
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="S’inscrire" />
-        </div>
-    </div>
-}
+                <div class="row row-mt-7em">
+                    <div class="col-md-7 mt-text animate-box" data-animate-effect="fadeInUp">
+                        <h1 class="cursive-font">All in good taste!</h1>
+                    </div>
+                    <div class="col-md-4 col-md-push-1 animate-box" data-animate-effect="fadeInRight">
+                        <div class="form-wrap">
+                            <div class="tab">
 
+                                <div class="tab-content">
+                                    <div class="tab-content-inner active" data-content="login">
+                                        <h3 class="cursive-font">@ViewBag.Title.</h3>
+                                        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            @Html.ValidationSummary("", new { @class = "text-danger" })
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+                                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label" })
+                                                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <input type="submit" class="btn btn-primary btn-block" value="S’inscrire" />
+                                                </div>
+                                            </div>
+                                            <p>
+                                                @Html.ActionLink("Se Connecter", "Login")
+                                            </p>
+                                        }
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</header>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

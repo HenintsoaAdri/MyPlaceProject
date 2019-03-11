@@ -15,7 +15,16 @@ namespace MyPlaceProject.Services
         {
             return instance;
         }
-
+        public BaseModelPagination<Commande> GetAll(int page=1, int maxResult=10)
+        {
+            using (var context = new MyPlaceContext())
+            {
+                BaseModelPagination<Commande> pagination = new BaseModelPagination<Commande>(page, maxResult);
+                pagination.totalResult = context.commande.Count();
+                pagination.liste = context.commande.OrderBy(i => i.Id).Skip(pagination.offset()).Take(maxResult).ToList();
+                return pagination;
+            }
+        }
         public List<Commande> GetAll()
         {
             using (var context = new MyPlaceContext())
@@ -27,7 +36,7 @@ namespace MyPlaceProject.Services
         {
             using(var context = new MyPlaceContext())
             {
-                return context.commande.Find(id);
+                return context.commande.Include(i => i.DetailCommande.Select(c => c.Produit.Categorie)).Where(i => i.Id == id).FirstOrDefault();
             }
         }
         public void Save(Commande commande)
@@ -39,6 +48,18 @@ namespace MyPlaceProject.Services
                     try
                     {
                         context.commande.Add(commande);
+                        foreach(var detail in commande.DetailCommande)
+                        {
+                            Produit p = context.produit.Find(detail.ProduitId);
+                            if(p != null)
+                            {
+                                p.QuantiteStock = p.QuantiteStock - detail.Quantite;
+                            }
+                            else
+                            {
+                                commande.DetailCommande.Remove(detail);
+                            }
+                        }
                         context.SaveChanges();
                         dbContextTransaction.Commit();
                     }
@@ -102,7 +123,7 @@ namespace MyPlaceProject.Services
                 }
             }
         }
-        public void Delete(Commande commande)
+        public void Delete(int id)
         {
             using (var context = new MyPlaceContext())
             {
@@ -110,6 +131,7 @@ namespace MyPlaceProject.Services
                 {
                     try
                     {
+                        Commande commande = context.commande.Find(id);                        
                         context.commande.Remove(commande);
                         context.SaveChanges();
                         dbContextTransaction.Commit();
@@ -121,7 +143,6 @@ namespace MyPlaceProject.Services
                     }
                 }
             }
-
         }
     }
 }

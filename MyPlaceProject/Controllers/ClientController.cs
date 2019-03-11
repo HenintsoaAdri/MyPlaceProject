@@ -1,4 +1,5 @@
-﻿using MyPlaceProject.Models;
+﻿using Microsoft.AspNet.Identity;
+using MyPlaceProject.Models;
 using MyPlaceProject.Services;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Web.Mvc;
 
 namespace MyPlaceProject.Controllers
 {
+    [Authorize]
     public class ClientController : Controller
     {
         CommandeService service = CommandeService.getInstance();
@@ -31,18 +33,21 @@ namespace MyPlaceProject.Controllers
         }
 
         // GET: Client/Create
+        [Authorize(Roles = "Client")]
         public ActionResult Commande()
         {
-            return View(service.findAll());
+            return View(service.findAllByUser(User.Identity.GetUserId()));
         }
 
         // POST: Client/Create
+
+        [Authorize(Roles = "Client")]
         [HttpPost]
         public ActionResult Create(Commande commande)
         {
             try
             {
-                CommandeService.getInstance().create(commande);
+                CommandeService.getInstance().create(commande, User.Identity.GetUserId());
                 return RedirectToAction("Create");
             }
             catch
@@ -52,16 +57,17 @@ namespace MyPlaceProject.Controllers
         }
 
         // GET: Commande/Details/5
+        [Authorize(Roles = "Client")]
         public ActionResult DetailsCommande(int id)
         {
             if (id == 0)
             {
                 return RedirectToAction("Commande");
             }
-            Commande commande = service.find(id);
+            Commande commande = service.find(id, User.Identity.GetUserId());
             if (commande == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("Commande");
             }
             return View(commande);
         }

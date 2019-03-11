@@ -50,7 +50,6 @@
         if (contentType.indexOf("application/x-javascript") !== -1) {  // jQuery already executes JavaScript for us
             return;
         }
-
         mode = (element.getAttribute("data-ajax-mode") || "").toUpperCase();
         $(element.getAttribute("data-ajax-update")).each(function (i, update) {
             var top;

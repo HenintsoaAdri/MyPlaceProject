@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using MyPlaceProject.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace MyPlaceProject
 {
@@ -63,6 +64,50 @@ namespace MyPlaceProject
             //    ClientId = "",
             //    ClientSecret = ""
             //});
+        }
+        private void createRolesandUsers()
+        {
+            ApplicationDbContext context = new ApplicationDbContext();
+
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+
+
+            // In Startup iam creating first Admin Role and creating a default Admin User    
+            if (!roleManager.RoleExists("Administrateur"))
+            {
+
+                // first we create Admin rool   
+                var role = new IdentityRole();
+                role.Name = "Administrateur";
+                roleManager.Create(role);
+
+                //Here we create a Admin super user who will maintain the website                  
+
+                var user = new ApplicationUser();
+                user.UserName = "herilala.antsa@gmail.com";
+                user.Email = "herilala.antsa@gmail.com";
+
+                string userPWD = "Antsalol1401!";
+
+                var chkUser = UserManager.Create(user, userPWD);
+
+                //Add default User to Role Admin   
+                if (chkUser.Succeeded)
+                {
+                    var result1 = UserManager.AddToRole(user.Id, "Administrateur");
+                    
+                }
+            }
+
+            // creating Creating Manager role    
+            if (!roleManager.RoleExists("Client"))
+            {
+                var role = new IdentityRole();
+                role.Name = "Client";
+                roleManager.Create(role);
+                
+            }
         }
     }
 }

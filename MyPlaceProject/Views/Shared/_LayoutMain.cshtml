@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My Place</title>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/front")
+</head>
+<body>
+    <div class="gtco-loader"></div>
+
+    <div id="page">
+
+
+        <!-- <div class="page-inner"> -->
+        <nav class="gtco-nav" role="navigation">
+            <div class="gtco-container">
+
+                <div class="row">
+                    <div class="col-sm-4 col-xs-12">
+                        <div id="gtco-logo"><a href="@Url.Action("Index", "Home")">My Place <em>.</em></a></div>
+                    </div>
+                    <div class="col-xs-8 text-right menu-1">
+                        <ul>
+                            @if (User.IsInRole("Administrateur"))
+                            {
+                                <li><a href="@Url.Action("Index", "Administrateur")">Tableau de bord</a></li>
+                            }
+                            <li><a href="@Url.Action("Create", "Client")">Passez Commande !</a></li>
+                            <li><a href="@Url.Action("Commande", "Client")">Mes Commandes</a></li>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li><a href="#">@User.Identity.Name</a></li>
+                                using (Html.BeginForm("LogOff", "Account", FormMethod.Post))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <li class="btn-cta"><button type="submit" class="btn-link"><span>Déconnexion</span></button></li>
+                                }
+                            }
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </nav>
+
+        @RenderBody()
+
+        <footer id="gtco-footer" role="contentinfo" style="background-image: url(Content/front-assets/images/img_bg_1.jpg)" data-stellar-background-ratio="0.5">
+            <div class="overlay"></div>
+            <div class="gtco-container">
+                <div class="row row-pb-md">
+
+
+
+
+                    <div class="col-md-12 text-center">
+                        <div class="gtco-widget">
+                            <h3>Get In Touch</h3>
+                            <ul class="gtco-quick-contact">
+                                <li><a href="#"><i class="icon-phone"></i> +1 234 567 890</a></li>
+                                <li><a href="#"><i class="icon-mail2"></i> info@myplace.mg</a></li>
+                                <li><a href="#"><i class="icon-chat"></i> Live Chat</a></li>
+                            </ul>
+                        </div>
+                        <div class="gtco-widget">
+                            <h3>Get Social</h3>
+                            <ul class="gtco-social-icons">
+                                <li><a href="#"><i class="icon-twitter"></i></a></li>
+                                <li><a href="#"><i class="icon-facebook"></i></a></li>
+                                <li><a href="#"><i class="icon-linkedin"></i></a></li>
+                                <li><a href="#"><i class="icon-dribbble"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>                    
+                </div>
+
+
+
+            </div>
+        </footer>
+        <!-- </div> -->
+
+    </div>
+
+    <div class="gototop js-top">
+        <a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
+    </div>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/front")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

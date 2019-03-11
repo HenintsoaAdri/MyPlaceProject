@@ -53,7 +53,7 @@ namespace MyPlaceProject.DAO
         
 
 
-        public Produit findById(int id)
+        public Produit findById(int id, bool lazy)
         {
             using (SqlConnection conn = UtilDB.getInstance().getConnection())
             {
@@ -69,6 +69,10 @@ namespace MyPlaceProject.DAO
                     if (reader.Read())
                     {
                         item = UtilDB.getInstance().createProduit(reader);
+                        if (!lazy)
+                        {
+                            item.Categorie = new CategorieDAO().findCategorieById(item.Categorie.Id);
+                        }
                     }
                     return item;
                 }

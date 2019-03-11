@@ -1,38 +1,40 @@
 ﻿@model IEnumerable<MyPlaceProject.Models.Commande>
 
 @{
-    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
     ViewBag.Title = "Commande";
 }
 
 <h2>Index</h2>
+<div class="row-mt-7em">
+    <p>
+        @Html.ActionLink("Créer une commande", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                Référence
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th></th>
+        </tr>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            Référence
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th></th>
-    </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    Commande N° @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "DetailsCommande", new { id = item.Id })
+                </td>
+            </tr>
+        }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            Commande N° @Html.DisplayFor(modelItem => item.Id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
-        <td>
-            @Html.ActionLink("Details", "DetailsCommande", new { id=item.Id }) 
-        </td>
-    </tr>
-}
-
-</table>
+    </table>
+</div>

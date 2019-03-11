@@ -52,15 +52,22 @@
       <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.2\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
-      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=5.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.JsonWebTokens.5.4.0\lib\net461\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
     </Reference>
-    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
-      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=5.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Logging.5.4.0\lib\net461\Microsoft.IdentityModel.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=5.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.5.4.0\lib\net461\Microsoft.IdentityModel.Tokens.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=5.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.5.4.0\lib\net461\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -208,8 +215,10 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProduitController.cs" />
+    <Compile Include="Controllers\UtilisateurController.cs" />
     <Compile Include="DAO\CommandeDAO.cs" />
     <Compile Include="DAO\DetailCommandeDAO.cs" />
+    <Compile Include="DAO\CategorieDAO.cs" />
     <Compile Include="DAO\ProduitDAO.cs" />
     <Compile Include="DAO\UtilDB.cs" />
     <Compile Include="Global.asax.cs">
@@ -226,28 +235,55 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Produit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\BaseModelPagination.cs" />
     <Compile Include="Services\CommandeService.cs" />
     <Compile Include="Services\CategorieServiceEF.cs" />
     <Compile Include="Services\ProduitServiceEF.cs" />
     <Compile Include="Services\CommandeServiceEF.cs" />
     <Compile Include="Services\ProduitService.cs" />
+    <Compile Include="Services\UtilisateurServiceEF.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-reboot.css" />
+    <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\cssClient.css" />
     <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\front-assets\animate.css" />
+    <Content Include="Content\front-assets\bootstrap-datepicker.min.css" />
+    <Content Include="Content\front-assets\bootstrap-datetimepicker.min.css" />
+    <Content Include="Content\front-assets\flexslider.css" />
+    <Content Include="Content\front-assets\icomoon.css" />
+    <Content Include="Content\front-assets\images\img_1.jpg" />
+    <Content Include="Content\front-assets\images\img_2.jpg" />
+    <Content Include="Content\front-assets\images\img_3.jpg" />
+    <Content Include="Content\front-assets\images\img_4.jpg" />
+    <Content Include="Content\front-assets\images\img_5.jpg" />
+    <Content Include="Content\front-assets\images\img_6.jpg" />
+    <Content Include="Content\front-assets\images\img_bg_1.jpg" />
+    <Content Include="Content\front-assets\images\img_bg_3.jpg" />
+    <Content Include="Content\front-assets\images\loader.gif" />
+    <Content Include="Content\front-assets\magnific-popup.css" />
+    <Content Include="Content\front-assets\owl.carousel.min.css" />
+    <Content Include="Content\front-assets\owl.theme.default.min.css" />
+    <Content Include="Content\front-assets\style.css" />
+    <Content Include="Content\front-assets\themify-icons.css" />
     <Content Include="Content\img\plat-image.jpg" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\sb-admin-2.min.css" />
+    <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\icomoon\icomoon.svg" />
+    <Content Include="fonts\themify-icons\themify.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="fonts\fontawesome-webfont.eot" />
@@ -255,8 +291,36 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\front-assets\images\.DS_Store" />
+    <Content Include="fonts\icomoon\icomoon.eot" />
+    <Content Include="fonts\icomoon\icomoon.ttf" />
+    <Content Include="fonts\icomoon\icomoon.woff" />
+    <Content Include="fonts\themify-icons\themify.eot" />
+    <Content Include="fonts\themify-icons\themify.ttf" />
+    <Content Include="fonts\themify-icons\themify.woff" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\custom-cart.js" />
+    <Content Include="Scripts\front-js\bootstrap-datepicker.min.js" />
+    <Content Include="Scripts\front-js\bootstrap-datetimepicker.min.js" />
+    <Content Include="Scripts\front-js\google_map.js" />
+    <Content Include="Scripts\front-js\jquery.countTo.js" />
+    <Content Include="Scripts\front-js\jquery.easing.1.3.js" />
+    <Content Include="Scripts\front-js\jquery.magnific-popup.min.js" />
+    <Content Include="Scripts\front-js\jquery.stellar.min.js" />
+    <Content Include="Scripts\front-js\jquery.waypoints.min.js" />
+    <Content Include="Scripts\front-js\magnific-popup-options.js" />
+    <Content Include="Scripts\front-js\main.js" />
+    <Content Include="Scripts\front-js\moment.min.js" />
+    <Content Include="Scripts\front-js\owl.carousel.min.js" />
+    <Content Include="Scripts\front-js\respond.min.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -274,6 +338,7 @@
     <Content Include="Scripts\metisMenu.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\sb-admin-2.js" />
+    <Content Include="Scripts\upload-image.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -330,6 +395,15 @@
     <Content Include="Views\ClientSelect\Produit.cshtml" />
     <Content Include="Views\Client\Commande.cshtml" />
     <Content Include="Views\Client\DetailsCommande.cshtml" />
+    <Content Include="Views\Utilisateur\Create.cshtml" />
+    <Content Include="Views\Utilisateur\Delete.cshtml" />
+    <Content Include="Views\Utilisateur\Details.cshtml" />
+    <Content Include="Views\Utilisateur\Edit.cshtml" />
+    <Content Include="Views\Utilisateur\Index.cshtml" />
+    <Content Include="Views\Select\Role.cshtml" />
+    <Content Include="Views\Home\Administrateur.cshtml" />
+    <Content Include="Views\Shared\_LayoutMain.cshtml" />
+    <Content Include="Views\Select\Utilisateur.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -339,11 +413,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-theme.min.css.map" />
-    <Content Include="Content\bootstrap-theme.css.map" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>

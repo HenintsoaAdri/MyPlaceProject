@@ -1,6 +1,16 @@
 $(function() {
     $('#side-menu').metisMenu();
 });
+$(function () {
+    // $('#date-start').datepicker();
+    $('#date').datetimepicker({
+        format: 'DD/MM/YYYY',
+        minDate: new Date()
+    });
+    $('#time').datetimepicker({
+        format: 'LT'
+    });
+});
 
 //Loads the correct sidebar on window load,
 //collapses the sidebar on window resize.

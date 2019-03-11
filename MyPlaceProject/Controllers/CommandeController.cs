@@ -11,14 +11,15 @@ using MyPlaceProject.Services;
 
 namespace MyPlaceProject.Controllers
 {
+    [Authorize(Roles = "Administrateur")]
     public class CommandeController : Controller
     {
         private CommandeServiceEF service = CommandeServiceEF.getInstance();
 
         // GET: Commande
-        public ActionResult Index()
+        public ActionResult Index(int page = 1, int maxResult = 10)
         {
-            return View(service.GetAll());
+            return View(service.GetAll(page, maxResult));
         }
 
         // GET: Commande/Details/5
@@ -122,16 +123,15 @@ namespace MyPlaceProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Commande commande = service.Get(id);
             try
             {
-                service.Delete(commande);
+                service.Delete(id);
                 return RedirectToAction("Index");
             }catch(Exception e)
             {
                 ModelState.AddModelError("", e.Message);
             }
-            return View(commande);
+            return View(service.Get(id));
         }
     }
 }

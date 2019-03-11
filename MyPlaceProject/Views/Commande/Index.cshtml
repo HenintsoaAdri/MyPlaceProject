@@ -1,11 +1,11 @@
-﻿@model IEnumerable<MyPlaceProject.Models.Commande>
+﻿@model MyPlaceProject.Services.BaseModelPagination<MyPlaceProject.Models.Commande>
 
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Commande";
 }
 
-<h2>Index</h2>
+<h2>Commande</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -16,25 +16,34 @@
             Référence
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Date)
+            @Html.DisplayNameFor(model => model.liste.FirstOrDefault().Date)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            Commande N° @Html.DisplayFor(modelItem => item.Id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model.liste)
+    {
+        <tr>
+            <td>
+                Commande N° @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>
+<ul class="pagination">
+    @for (var i = 1; i <= Model.getNbPage(); i++)
+    {
+        <li class="@(i == Model.page ? "active" : "") ">
+            @Html.ActionLink(i.ToString(), "Index", new { page = i, maxResult = Model.maxResult })
+        </li>
+    }
+</ul>

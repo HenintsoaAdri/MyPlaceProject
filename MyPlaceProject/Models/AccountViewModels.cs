@@ -81,6 +81,28 @@ namespace MyPlaceProject.Models
         public string ConfirmPassword { get; set; }
     }
 
+    public class CreateViewModel : RegisterViewModel
+    {
+        [Required]
+        [Display(Name = "Role")]
+        public string Role { get; set; }
+        public string Id { get; set; }
+    }
+    public class EditViewModel
+    {
+        [Required]
+        [Display(Name = "Role")]
+        public string Role { get; set; }
+
+        [Required]
+        public string Id { get; set; }
+
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Courrier électronique")]
+        public string Email { get; set; }
+    }
+
     public class ResetPasswordViewModel
     {
         [Required]

@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 
 namespace MyPlaceProject.Controllers
 {
+    [Authorize(Roles ="Administrateur")]
     public class BaseModeleController : Controller
     {
         private MyPlaceContext db = new MyPlaceContext();

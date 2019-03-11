@@ -22,15 +22,20 @@ namespace MyPlaceProject.Services
         {
             return dao.findAll(true);
         }
-
-        public Commande find(int id)
+        public List<Commande> findAllByUser(string id)
         {
-            return dao.findById(id,false);
+            return dao.findAllByUser(id, true);
         }
 
-        public void create(Commande commande)
+        public Commande find(int id, string userid)
+        {
+            return dao.findByIdAndUser(id, userid,false);
+        }
+
+        public void create(Commande commande, string id)
         {
             commande.Date = DateTime.Now;
+            commande.ApplicationUserID = id;
             dao.save(commande);
         }
     }

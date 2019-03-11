@@ -15,6 +15,16 @@ namespace MyPlaceProject.Services
         {
             return instance;
         }
+        public BaseModelPagination<Produit> GetAll(int page = 1, int maxResult = 10)
+        {
+            using (var context = new MyPlaceContext())
+            {
+                BaseModelPagination<Produit> pagination = new BaseModelPagination<Produit>(page, maxResult);
+                pagination.totalResult = context.produit.Count();
+                pagination.liste = context.produit.Include(i=>i.Categorie).OrderBy(i=>i.Id).Skip(pagination.offset()).Take(maxResult).ToList();
+                return pagination;
+            }
+        }
 
         public List<Produit> GetAll()
         {
@@ -27,7 +37,7 @@ namespace MyPlaceProject.Services
         {
             using(var context = new MyPlaceContext())
             {
-                return context.produit.Find(id);
+                return context.produit.Include(p => p.Categorie).Where(p => p.Id == id).FirstOrDefault();
             }
         }
         public void Save(Produit produit)
@@ -70,7 +80,7 @@ namespace MyPlaceProject.Services
                 }
             }
         }
-        public void Delete(Produit produit)
+        public void Delete(int id)
         {
             using (var context = new MyPlaceContext())
             {
@@ -78,6 +88,7 @@ namespace MyPlaceProject.Services
                 {
                     try
                     {
+                        Produit produit = context.produit.Find(id);
                         context.produit.Remove(produit);
                         context.SaveChanges();
                         dbContextTransaction.Commit();

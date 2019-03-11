@@ -1,11 +1,11 @@
-﻿@model IEnumerable<MyPlaceProject.Models.Produit>
+﻿@model MyPlaceProject.Services.BaseModelPagination<MyPlaceProject.Models.Produit>
 
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Produit";
 }
 
-<h2>Index</h2>
+<h2>Produit</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -13,55 +13,64 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Nom)
+            @Html.DisplayNameFor(model => model.liste.FirstOrDefault().Nom)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Prix)
+            @Html.DisplayNameFor(model => model.liste.FirstOrDefault().Prix)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.liste.FirstOrDefault().Description)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Photo)
+            @Html.DisplayNameFor(model => model.liste.FirstOrDefault().Photo)
         </th>
         <th>
-           @Html.DisplayNameFor(model => model.Categorie)
+            @Html.DisplayNameFor(model => model.liste.FirstOrDefault().Categorie)
         </th>
         <th>
-           @Html.DisplayNameFor(model => model.QuantiteStock)
+            @Html.DisplayNameFor(model => model.liste.FirstOrDefault().QuantiteStock)
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nom)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Prix)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Photo)
-        </td>
-        <td>
-            @if (item.Categorie != null)
-            {
-                @Html.ActionLink(item.Categorie.Nom, "Details", "Categorie", new { id = item.Categorie.Id }, null)
-            }
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.QuantiteStock)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model.liste)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Prix)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                <img src="@Html.DisplayFor(modelItem => item.Photo)" class="img-responsive" width="100px">
+            </td>
+            <td>
+                @if (item.Categorie != null)
+                {
+                    @Html.ActionLink(item.Categorie.Nom, "Details", "Categorie", new { id = item.Categorie.Id }, null)
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuantiteStock)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>
+<ul class="pagination">
+    @for (var i = 1; i <= Model.getNbPage(); i++)
+    {
+        <li class="@(i == Model.page ? "active" : "") ">
+            @Html.ActionLink(i.ToString(), "Index", new { page = i, maxResult = Model.maxResult })
+        </li>
+    }
+</ul>

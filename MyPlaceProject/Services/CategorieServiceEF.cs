@@ -15,6 +15,16 @@ namespace MyPlaceProject.Services
         {
             return instance;
         }
+        public BaseModelPagination<Categorie> GetAll(int page = 1, int maxResult = 10)
+        {
+            using (var context = new MyPlaceContext())
+            {
+                BaseModelPagination<Categorie> pagination = new BaseModelPagination<Categorie>(page, maxResult);
+                pagination.totalResult = context.categorie.Count();
+                pagination.liste = context.categorie.OrderBy(i => i.Id).Skip(pagination.offset()).Take(maxResult).ToList();
+                return pagination;
+            }
+        }
 
         public List<Categorie> GetAll()
         {
@@ -70,7 +80,7 @@ namespace MyPlaceProject.Services
                 }
             }
         }
-        public void Delete(Categorie categorie)
+        public void Delete(int id)
         {
             using (var context = new MyPlaceContext())
             {
@@ -78,6 +88,7 @@ namespace MyPlaceProject.Services
                 {
                     try
                     {
+                        Categorie categorie = context.categorie.Find(id);
                         context.categorie.Remove(categorie);
                         context.SaveChanges();
                         dbContextTransaction.Commit();

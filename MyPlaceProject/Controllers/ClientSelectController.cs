@@ -9,12 +9,8 @@ namespace MyPlaceProject.Controllers
 {
     public class ClientSelectController : Controller
     {
-        // GET: ClientSelect
-        public ActionResult Index()
-        {
-            return View();
-        }
         // GET: SelectProduit
+        [AllowAnonymous]
         public PartialViewResult Produit(int? id)
         {
             ViewBag.Selected = id;

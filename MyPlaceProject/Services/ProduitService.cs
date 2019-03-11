@@ -20,7 +20,7 @@ namespace MyPlaceProject.Services
 
         public List<Produit> findAll()
         {
-            return dao.findAll(true);
+            return dao.findAll(false);
         }
     }
 }
