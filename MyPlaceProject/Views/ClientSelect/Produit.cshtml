@@ -1,27 +1,30 @@
-﻿@model List<MyPlaceProject.Models.Produit>
-
-<div class="gtco-section">
-    <div class="gtco-container">
-        <ul id="list-menu" class="row list-unstyled list-inline row">
-            @foreach (var item in Model)
-            {
-                <li class="col-lg-4 col-md-4 col-sm-6" draggable="true" data-prix="@item.Prix" data-nom="@item.Nom" data-categorie="@item.Categorie.Nom" data-stock="@item.QuantiteStock" data-id="@item.Id">
-
-                    <div>
-                        <a href="@item.Photo" class="fh5co-card-item image-popup">
-                            <figure>
-                                <div class="overlay"><i class="ti-plus"></i></div>
-                                <img src="@item.Photo" alt="Image" class="img-responsive">
-                            </figure>
-                            <div class="fh5co-text">
-                                <h2>@item.Nom</h2>
-                                <p>@item.Description</p>
-                                <p><span class="price cursive-font">Ar @item.Prix</span></p>
-                            </div>
-                        </a>
+﻿@model List<string>
+@using (Ajax.BeginForm("ProduitResult", "ClientSelect", new AjaxOptions
+{
+    HttpMethod = "GET",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "produit-resultats",
+}))
+{
+    <div class="gtco-section" style="padding:0">
+        <div class="gtco-container">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-md-7">
+                        @Html.TextBox("query", null, new { @class = "form-control", placeholder = "Rechercher un produit" })
                     </div>
-                </li>
-            }
-        </ul>
+                    <div class="col-md-2">
+                        @Html.DropDownList("maxResult", new SelectList(Model), "9", new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-3">
+                        <input type="submit" value="Recherche" class="form-control btn btn-default" />
+                    </div>
+                </div>
+            </div>
+            <div id="produit-resultats">
+                @Html.Action("ProduitResult", "ClientSelect", new { maxResult = 9 })
+            </div>
+
+        </div>
     </div>
-</div>
+}

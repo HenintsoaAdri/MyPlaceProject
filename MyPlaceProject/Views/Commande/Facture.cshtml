@@ -1,11 +1,10 @@
 ﻿@model MyPlaceProject.Models.Commande
 
 @{
-    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Facture";
 }
 
-<h2>Details</h2>
+<h2>Facture</h2>
 
 <div>
     <h4>Commande du @Model.Date.ToLongDateString() à @Model.Date.ToShortTimeString()</h4>
@@ -42,11 +41,6 @@
                 </tbody>
             </table>
             <p>Total: Ar <span class="total">@Model.GetTotal()</span></p>
-            @Html.ActionLink("Générer la facture", "Facture", new { id = Model.Id })
         </dd>
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

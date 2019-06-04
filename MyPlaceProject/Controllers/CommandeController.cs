@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -30,13 +31,31 @@ namespace MyPlaceProject.Controllers
                 return RedirectToAction("Index");
             }
             Commande commande = service.Get(id);
-            if (commande == null)
-            {
-                return HttpNotFound();
-            }
             return View(commande);
         }
-
+        public ActionResult Facture(int? id)
+        {
+            using (var writer = new StringWriter())
+            {
+                Commande commande = service.Get(id);
+                if (commande == null)
+                {
+                    return RedirectToAction("Index");
+                }
+                ViewData.Model = commande;
+                var partial  = ViewEngines.Engines.FindView(ControllerContext, "Facture", "_Layout");
+                ViewContext viewContext = new ViewContext(ControllerContext, partial.View, ViewData, TempData, writer);
+                partial.View.Render(viewContext, writer);
+                
+                SelectPdf.HtmlToPdf converter = new SelectPdf.HtmlToPdf();
+                SelectPdf.PdfDocument doc = converter.ConvertHtmlString(writer.ToString(), Request.Url.AbsoluteUri);
+                byte[] pdf = doc.Save();
+                doc.Close();
+                FileResult file = new FileContentResult(pdf, "application/pdf");
+                file.FileDownloadName = "Facture" + DateTime.Now.ToString() + ".pdf";
+                return file;
+            }
+        }
         // GET: Commande/Create
         public ActionResult Create()
         {

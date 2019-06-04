@@ -3,6 +3,7 @@ using MyPlaceProject.Models;
 using MyPlaceProject.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -13,26 +14,14 @@ namespace MyPlaceProject.Controllers
     public class ClientController : Controller
     {
         CommandeService service = CommandeService.getInstance();
-
-        // GET: Client
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        // GET: Client/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
+                
         // GET: Client/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // GET: Client/Create
+        // GET: Client/Commande
         [Authorize(Roles = "Client")]
         public ActionResult Commande()
         {
@@ -48,7 +37,7 @@ namespace MyPlaceProject.Controllers
             try
             {
                 CommandeService.getInstance().create(commande, User.Identity.GetUserId());
-                return RedirectToAction("Create");
+                return RedirectToAction("Commande");
             }
             catch
             {
@@ -71,48 +60,26 @@ namespace MyPlaceProject.Controllers
             }
             return View(commande);
         }
-
-        // GET: Client/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Facture(int id)
         {
-            return View();
-        }
-
-        // POST: Client/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
+            using (var writer = new StringWriter())
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Client/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Client/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
+                Commande commande = service.find(id, User.Identity.GetUserId());
+                if (commande == null)
+                {
+                    return RedirectToAction("Commande");
+                }
+                ViewData.Model = commande;
+                var partial = ViewEngines.Engines.FindView(ControllerContext, "Facture", "_Layout");
+                ViewContext viewContext = new ViewContext(ControllerContext, partial.View, ViewData, TempData, writer);
+                partial.View.Render(viewContext, writer);
+                SelectPdf.HtmlToPdf converter = new SelectPdf.HtmlToPdf();
+                SelectPdf.PdfDocument doc = converter.ConvertHtmlString(writer.ToString(), Request.Url.AbsoluteUri);
+                byte[] pdf = doc.Save();
+                doc.Close();
+                FileResult file = new FileContentResult(pdf, "application/pdf");
+                file.FileDownloadName = "Facture" + DateTime.Now.ToString() + ".pdf";
+                return file;
             }
         }
     }

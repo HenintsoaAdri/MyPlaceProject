@@ -1,18 +1,28 @@
-﻿@model List<MyPlaceProject.Models.Produit>
-<ul id="list-menu" class="list-unstyled">
-    @foreach(var item in Model)
-    {
-    <li draggable="true" data-prix="@item.Prix" data-nom="@item.Nom" data-categorie="@item.Categorie.Nom" data-stock="@item.QuantiteStock" data-id="@item.Id">
-        <div class="row">
-            <!-- div class="col-sm-2">
-        <img class="img-fluid  img-max-small" src="/Content/img/plat-image.jpg" />
-    </!--div>
-    <div class="col-sm-8">
-        <a>-->
-            @Html.DisplayFor(modelItem => item.Nom)
-            <!--/a>
-        </div>-->
+﻿@model List<string>
+@using (Ajax.BeginForm("ProduitResult", "Select", new AjaxOptions
+{
+    HttpMethod = "GET",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "produit-resultats",
+}))
+{
+<div class="form-horizontal">
+    @Html.Label("Rechercher un produit :")
+    <div class="form-group">
+        <div class="col-md-7">
+            @Html.TextBox("query", null, new { @class = "form-control" })
         </div>
-    </li>
-    }
-</ul>
+        <div class="col-md-3">
+            @Html.DropDownList("maxResult", new SelectList(Model), "9", new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <input type="submit" value="Recherche" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+<div id="produit-resultats">
+    @Html.Action("ProduitResult", "Select", new { maxResult = 9})
+</div>
+}

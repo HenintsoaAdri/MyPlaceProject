@@ -130,7 +130,8 @@ namespace MyPlaceProject.DAO
                 }
                 finally
                 {
-                    reader.Close();
+                    if (reader != null) reader.Close();
+                    if (sqlCommand != null) sqlCommand.Dispose();
                     if (conn != null) conn.Close();
                 }
             }
@@ -170,7 +171,8 @@ namespace MyPlaceProject.DAO
                 }
                 finally
                 {
-                    reader.Close();
+                    if (reader != null) reader.Close();
+                    if (sqlCommand != null) sqlCommand.Dispose();
                     if (conn != null) conn.Close();
                 }
             }
@@ -218,6 +220,8 @@ namespace MyPlaceProject.DAO
                 }
                 finally
                 {
+                    if(da != null) da.Dispose();
+                    if (trans != null) trans.Dispose();
                     if(conn!=null) conn.Close();
                 }
             }

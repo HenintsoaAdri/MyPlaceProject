@@ -1,19 +1,22 @@
 ﻿$(document).ready(function () {
     var total = parseInt($('p .total').html());
     var counter = 0;
-    $('input[name="DetailCommande.Index"]').each(function () {
-        counter++;
-    });
-    $('#list-menu li').draggable({
-        revert: "invalid",
-        helper: 'clone'
-    });
-    $('#panier').droppable({
-        accept: '#list-menu li',
-        drop: function (e, source) {
-            add(e, source.draggable);
-        }
-    });
+    $('body').on('mouseenter', '#list-menu li', function () {
+        $('input[name="DetailCommande.Index"]').each(function () {
+            counter++;
+        });
+        $('body #list-menu li').draggable({
+            revert: "invalid",
+            helper: 'clone'
+        });
+        $('#panier').droppable({
+            accept: '#list-menu li',
+            drop: function (e, source) {
+                add(e, source.draggable);
+            }
+        });
+    })
+    
     function add(e, source) {
         var row = $('#panier table>tbody tr').filter(function () {
             return $(this).data('id') == source.data('id');

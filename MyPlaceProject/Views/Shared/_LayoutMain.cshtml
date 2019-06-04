@@ -31,8 +31,11 @@
                             {
                                 <li><a href="@Url.Action("Index", "Administrateur")">Tableau de bord</a></li>
                             }
-                            <li><a href="@Url.Action("Create", "Client")">Passez Commande !</a></li>
-                            <li><a href="@Url.Action("Commande", "Client")">Mes Commandes</a></li>
+                            else
+                            {
+                                <li><a href="@Url.Action("Create", "Client")">Passez Commande !</a></li>
+                                <li><a href="@Url.Action("Commande", "Client")">Mes Commandes</a></li>
+                            }
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <li><a href="#">@User.Identity.Name</a></li>
@@ -51,7 +54,7 @@
 
         @RenderBody()
 
-        <footer id="gtco-footer" role="contentinfo" style="background-image: url(Content/front-assets/images/img_bg_1.jpg)" data-stellar-background-ratio="0.5">
+        <footer id="gtco-footer" role="contentinfo" style="background-image: url(/Content/front-assets/images/img_bg_1.jpg)" data-stellar-background-ratio="0.5">
             <div class="overlay"></div>
             <div class="gtco-container">
                 <div class="row row-pb-md">

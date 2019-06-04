@@ -5,15 +5,15 @@
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>Edition</h2>
 
 <div class="row">
     <div class="col-md-4 image-wrapper">
         @Html.LabelFor(model => model.Photo, htmlAttributes: new { @class = "control-label" })
         <div class="well well-lg">
             Glisser l'image ici
-            <img class="img-responsive img-thumbnail" width="250px"
-                 src="@Html.DisplayFor(model => model.Photo)"/>
+            <img class="img-responsive img-thumbnail" style="max-width:250px"
+                 src="@Html.DisplayFor(model => model.Photo)" />
         </div>
     </div>
     <div class="col-md-8">
@@ -80,7 +80,7 @@
     </div>
 </div>
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Retour à la liste", "Index")
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

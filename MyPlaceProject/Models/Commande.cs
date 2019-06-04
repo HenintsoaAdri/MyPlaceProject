@@ -9,9 +9,12 @@ namespace MyPlaceProject.Models
     public class Commande : BaseModele
     {
         [DisplayFormat(ApplyFormatInEditMode = true)]
+        [Required(ErrorMessage = "La date de commande est requise")]
         public DateTime Date { get; set; }
         public virtual ICollection<DetailCommande> DetailCommande { get; set; }
 
+        [Display(Name = "Client")]
+        [Required(ErrorMessage = "Une commande doit correspondre à un client")]
         public string ApplicationUserID { get; set; }
 
         public float GetTotal()

@@ -1,4 +1,5 @@
-﻿using MyPlaceProject.Services;
+﻿using MyPlaceProject.Models;
+using MyPlaceProject.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,17 @@ namespace MyPlaceProject.Controllers
     {
         // GET: SelectProduit
         [AllowAnonymous]
-        public PartialViewResult Produit(int? id)
+        public PartialViewResult ProduitResult(int categorie = 0, string query = "", int page = 1, int maxResult = 9)
         {
-            ViewBag.Selected = id;
-            return PartialView(ProduitService.getInstance().findAll());
+            ViewBag.Query = query;
+            ViewBag.Categorie = categorie;
+            ViewBag.ListCategorie = ProduitService.getInstance().findAllCategorie();
+            return PartialView(ProduitService.getInstance().findLike(categorie, query, page, maxResult));
+        }
+        [AllowAnonymous]
+        public PartialViewResult Produit()
+        {
+            return PartialView(new List<string>() { "3", "18" });
         }
     }
 }

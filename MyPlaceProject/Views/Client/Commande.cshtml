@@ -5,36 +5,38 @@
     ViewBag.Title = "Commande";
 }
 
-<h2>Index</h2>
 <div class="row-mt-7em">
-    <p>
-        @Html.ActionLink("Créer une commande", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                Référence
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
+    <div class="col-sm-12">
+        <p>
+            @Html.ActionLink("Créer une commande", "Create")
+        </p>
+        <table class="table">
             <tr>
-                <td>
-                    Commande N° @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    @Html.ActionLink("Details", "DetailsCommande", new { id = item.Id })
-                </td>
+                <th>
+                    Référence
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th></th>
             </tr>
-        }
 
-    </table>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        Commande N° @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Details", "DetailsCommande", new { id = item.Id })
+                        <a class="pull-right btn btn-warning" href="@Url.Action("Facture", new { id = item.Id })"><i class="fa fa-file-pdf-o"></i> Télécharger la facture version PDF</a>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
 </div>

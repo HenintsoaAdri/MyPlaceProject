@@ -1,0 +1,50 @@
+﻿@model MyPlaceProject.Services.BaseModelPagination<MyPlaceProject.Models.Produit>
+<div id="produit-result">
+        <ul class="nav nav-tabs">
+            @foreach (MyPlaceProject.Models.Categorie categorie in ViewBag.ListCategorie)
+            {
+                <li class="@(categorie.Id == ViewBag.Categorie ? "active" : "")">
+                    @Ajax.ActionLink(categorie.Nom, "ProduitResult", "Select",
+                    new { maxResult = Model.maxResult, query = ViewBag.Query, categorie = categorie.Id },
+                    new AjaxOptions(){
+                        HttpMethod = "GET",
+                        InsertionMode = InsertionMode.Replace,
+                        UpdateTargetId = "produit-result",
+                    })
+                </li>
+            }
+        </ul>
+        <ul id="list-menu" class="list-unstyled list-inline">
+            @foreach (var item in Model.liste)
+            {
+                <li class="col-md-4" draggable="true" data-prix="@item.Prix" data-nom="@item.Nom" data-categorie="@item.Categorie.Nom" data-stock="@item.QuantiteStock" data-id="@item.Id">
+
+                    <div class="thumbnail" style="min-height:180px;max-height:180px;position:relative">
+                        <span class="label label-primary" style="position:absolute;top:0;right:0;">
+                            @Html.DisplayFor(modelItem => item.Categorie.Nom)
+                        </span>
+                        <img src="@item.Photo" alt="@item.Nom" class="img-responsive">
+                        <div class="caption">
+                            <p>
+                                @Html.DisplayFor(modelItem => item.Nom)
+                            </p>
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+    <ul class="pagination">
+        @for (var i = 1; i <= Model.getNbPage(); i++)
+        {
+            <li class="@(i == Model.page ? "active" : "") ">
+                @Ajax.ActionLink(i.ToString(), "ProduitResult", "Select",
+                    new { page = i, maxResult = Model.maxResult, query = ViewBag.Query },
+                    new AjaxOptions(){
+                        HttpMethod = "GET",
+                        InsertionMode = InsertionMode.Replace,
+                        UpdateTargetId = "produit-result",
+                    })
+            </li>
+        }
+    </ul>
+</div>

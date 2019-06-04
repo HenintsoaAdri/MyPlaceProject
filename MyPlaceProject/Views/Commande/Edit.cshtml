@@ -2,10 +2,10 @@
 
 @{
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Modifier la commande";
 }
 
-<h2>Edit</h2>
+<h2>@ViewBag.Title</h2>
 
 
 <div class="row">
@@ -15,7 +15,7 @@
             @Html.AntiForgeryToken()
 
         <div class="form-horizontal">
-            <h4>Commande</h4>
+            <h4>Commande #@Model.Id</h4>
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             @Html.HiddenFor(model => model.Id)

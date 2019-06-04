@@ -427,7 +427,7 @@ h1, h2, h3, h4, h5, h6, figure {
   position: relative;
   clear: both;
   background: rgba(0, 0, 0, 0.5);
-  padding: 30px;
+  padding: 15px;
 }
 #gtco-header .form-wrap .tab-content h3 {
   color: #fff;
@@ -452,6 +452,7 @@ h1, h2, h3, h4, h5, h6, figure {
   background-size: cover;
   background-position: top center;
   background-repeat: no-repeat;
+  background-attachment:fixed;
   position: relative;
 }
 
@@ -524,7 +525,7 @@ h1, h2, h3, h4, h5, h6, figure {
 }
 
 .gtco-cover {
-  height: 650px;
+  height: 550px;
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -612,8 +613,9 @@ h1, h2, h3, h4, h5, h6, figure {
 }
 .gtco-cover p {
   color: rgba(255, 255, 255, 0.9);
-  font-size: 20px !important;
+  font-size: 15px !important;
   font-weight: 300;
+  margin-bottom: 0;
 }
 
 .gtco-staff {
@@ -1797,7 +1799,9 @@ form label {
   transition: 0.3s;
 }
 .fh5co-card-item figure {
-  height: 240px;
+  height: 0;
+  padding-bottom:75%;
+  margin-bottom:0;
   overflow: hidden;
   z-index: 12;
   position: relative;
@@ -1830,14 +1834,15 @@ form label {
   transition: 0.3s;
 }
 .fh5co-card-item img {
-  z-index: 8;
-  opacity: 1;
-  -webkit-transition: 0.3s;
-  -o-transition: 0.3s;
-  transition: 0.3s;
+    z-index: 8;
+    opacity: 1;
+    -webkit-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+    transform: rotate(5deg) scale(1.1);
 }
 .fh5co-card-item .fh5co-text {
-  padding: 0px 10px 10px 20px;
+  padding: 0px 10px 10px 10px;
   text-align: center;
   position: relative;
   z-index: 22;
@@ -1849,7 +1854,7 @@ form label {
   left: 0;
   width: 103%;
   margin-left: -4px;
-  height: 50px;
+  height: 100px;
   z-index: -1;
   content: "";
   background: #fff;
@@ -1878,12 +1883,13 @@ form label {
   -webkit-transition: 0.5s;
   -o-transition: 0.5s;
   transition: 0.5s;
+  margin-bottom:0;
 }
 .fh5co-card-item .fh5co-text span.price {
   opacity: 1;
   visibility: visible;
   bottom: 0;
-  font-size: 30px;
+  font-size: 1.5vw;
   color: #FBB448;
   position: relative;
   -webkit-transition: 0.5s;
@@ -1923,7 +1929,13 @@ form label {
 .fh5co-card-item:hover h2, .fh5co-card-item:hover span, .fh5co-card-item:focus h2, .fh5co-card-item:focus span {
   text-decoration: none !important;
 }
-
+.fh5co-card-item span.label {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: white;
+    z-index: 13;
+}
 @media screen and (max-width: 768px) {
   .macbook-wrap img {
     max-width: 100%;

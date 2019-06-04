@@ -15,6 +15,14 @@ namespace MyPlaceProject.Services
         {
             return instance;
         }
+        public List<Categorie> GetCategories()
+        {
+            using(var context = new MyPlaceContext())
+            {
+                return context.categorie.ToList();
+            }
+        }
+
         public BaseModelPagination<Produit> GetAll(int page = 1, int maxResult = 10)
         {
             using (var context = new MyPlaceContext())
@@ -31,6 +39,29 @@ namespace MyPlaceProject.Services
             using (var context = new MyPlaceContext())
             {
                 return context.produit.Include(p => p.Categorie).ToList();
+            }
+        }
+
+        public BaseModelPagination<Produit> FindAllDisponible(int categorie, string query, int page = 1, int maxResult = 10)
+        {
+            using (var context = new MyPlaceContext())
+            {
+                BaseModelPagination<Produit> pagination = new BaseModelPagination<Produit>(page, maxResult);
+                IQueryable<Produit> queryable = context.produit.Include(p => p.Categorie).Where(p => p.QuantiteStock > 0);
+                if (!string.IsNullOrWhiteSpace(query))
+                {
+                    queryable = queryable.Where(p => p.Nom.ToLower().Contains(query.ToLower()));
+                }
+                if(categorie > 0)
+                {
+                    queryable = queryable.Where(p => p.CategorieId == categorie);
+                }
+                pagination.liste = queryable.OrderBy(i => i.Nom)
+                    .Skip(pagination.offset())
+                    .Take(maxResult)
+                    .ToList();
+                pagination.totalResult = queryable.Count();
+                return pagination;
             }
         }
         public Produit Get(int? id)
